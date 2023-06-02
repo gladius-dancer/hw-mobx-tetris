@@ -62,17 +62,14 @@ export function useTetris() {
     function drawNext() {
         tetris.nextContext.fillStyle = "#000";
         tetris.nextContext.fillRect(0, 0, tetris.next.width, tetris.next.height);
-
         drawMatrix(tetris.nextArena, {x: 0, y: 0}, tetris.nextContext);
         drawMatrix(tetris.player.next, {x: 1, y: 1}, tetris.nextContext);
 
     }
 
     function draw() {
-
         tetris.context.fillStyle = "#000";
         tetris.context.fillRect(0, 0, tetris.canvas.width, tetris.canvas.height);
-
         drawMatrix(tetris.arena, {x: 0, y: 0}, tetris.context);
         drawMatrix(tetris.player.matrix, tetris.player.pos, tetris.context);
 
@@ -113,11 +110,11 @@ export function useTetris() {
         }
     }
 
-    function collide(areena: any, player: Player) {
-        const [m, o] = [tetris.player.matrix, tetris.player.pos];
+    function collide(arena: any, player: Player) {
+        const [m, o] = [player.matrix, player.pos];
         for (let y = 0; y < m.length; y++) {
             for (let x = 0; x < m[y].length; x++) {
-                if (m[y][x] !== 0 && (tetris.arena[y + o.y] && tetris.arena[y + o.y][x + o.x]) !== 0) {
+                if (m[y][x] !== 0 && (arena[y + o.y] && arena[y + o.y][x + o.x]) !== 0) {
                     return true;
                 }
             }
@@ -191,46 +188,9 @@ export function useTetris() {
         }
     }
 
-    // function pauseGame() {
-    //     if (tetris.pause === true) {
-    //         tetris.pause = false;
-    //
-    //     } else {
-    //         if (collide(tetris.arena, tetris.player)) {
-    //             tetris.pause = true;
-    //             if (tetris.player.score > 0) {
-    //                 $("#gameOver").modal({
-    //                     dismissible: false,
-    //                     onOpenEnd: function () {
-    //                         $("#name").focus();
-    //                     },
-    //                 });
-    //                 $("#gameOver").modal("open");
-    //                 $(".yourScore").html(`<p>Your Score: ${tetris.player.score}`);
-    //             } else {
-    //                 $("#newGame").modal({ dismissible: false });
-    //                 $("#newGame").modal("open");
-    //             }
-    //         } else {
-    //             pause = true;
-    //             document.createEventListener;
-    //             $("#pause").modal({
-    //                 dismissible: false,
-    //                 onCloseStart: update(),
-    //             });
-    //             $("#pause").modal("open");
-    //             $("#pauseBtn").focus();
-    //             $("body").on("keydown", (e) => {
-    //                 if (e.keyCode === 39) {
-    //                     $("#StartNewBtn").focus();
-    //                 }
-    //                 if (e.keyCode === 37) {
-    //                     $("#pauseBtn").focus();
-    //                 }
-    //             });
-    //         }
-    //     }
-    // }
+    function pauseGame() {
+
+    }
 
     function playerRotate(dir: any) {
         const pos = tetris.player.pos.x;
@@ -282,12 +242,12 @@ export function useTetris() {
 
 
 
-    let lastTime = 0;
+
 
     function update(time = 0) {
         if (!tetris.pause) {
-            const deltaTime = time - lastTime;
-            lastTime = time;
+            const deltaTime = time - tetris.lastTime;
+            tetris.lastTime = time;
             tetris.dropCounter += deltaTime;
             if (tetris.dropCounter > tetris.player.dropInterval) {
                 playerDrop();

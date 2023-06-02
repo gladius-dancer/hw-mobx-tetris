@@ -4,10 +4,10 @@ import {Player} from "../models/Player";
 
 class Tetris {
 
-    pause = true;
-    dropCounter = 0;
-    DROP_FAST = 50;
-
+    pause: boolean = true;
+    dropCounter: number = 0;
+    DROP_FAST: number = 50;
+    lastTime: number = 0;
     arena: any | null = null;
     nextArena: any | null = null;
     canvas: any | null = null;
@@ -15,7 +15,6 @@ class Tetris {
     context: any | null = null;
     nextContext: any | null = null;
     isGameStarted: boolean = false;
-
 
     player: Player = {
         pos: {x: 0, y: 0},
