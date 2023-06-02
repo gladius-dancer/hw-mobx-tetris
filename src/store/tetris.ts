@@ -14,10 +14,12 @@ class Tetris {
     next: any | null = null;
     context: any | null = null;
     nextContext: any | null = null;
+    isGameStarted: boolean = false;
+
 
     player: Player = {
         pos: {x: 0, y: 0},
-        matrix: null,
+        matrix: [],
         score: 0,
         level: 1,
         dropInterval: 1000,
