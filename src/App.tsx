@@ -1,11 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Tetris from "./components/Tetris/Tetris";
+import Modal from "react-modal";
+
+Modal.setAppElement("#root");
+
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" >
      <Tetris/>
     </div>
   );
