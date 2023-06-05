@@ -12,6 +12,7 @@ class Tetris {
     next: any | null = null;
     context: any | null = null;
     nextContext: any | null = null;
+    pieces:string = "IJLOSTZ";
     isGameStarted: boolean = false;
     modal: boolean = true;
     gameOver: boolean = true;
@@ -175,13 +176,12 @@ class Tetris {
     }
 
     playerReset = () => {
-        const pieces = "IJLOSTZ";
         if (this.player.next === null) {
-            this.player.matrix = this.createPiece(pieces[(pieces.length * Math.random()) | 0]);
-            this.player.next = this.createPiece(pieces[(pieces.length * Math.random()) | 0]);
+            this.player.matrix = this.createPiece(this.pieces[(this.pieces.length * Math.random()) | 0]);
+            this.player.next = this.createPiece(this.pieces[(this.pieces.length * Math.random()) | 0]);
         } else {
             this.player.matrix = this.player.next;
-            this.player.next = this.createPiece(pieces[(pieces.length * Math.random()) | 0]);
+            this.player.next = this.createPiece(this.pieces[(this.pieces.length * Math.random()) | 0]);
         }
         this.drawNext();
         this.player.pos.y = 0;
@@ -292,20 +292,22 @@ class Tetris {
                 this.playerDrop();
             }
             this.draw();
+            this.drawNext();
             requestAnimationFrame(this.update);
         } else {
             this.draw();
+            this.drawNext();
         }
     }
 
     newGame = () => {
         this.gameOver = false;
+        this.isGameStarted = true;
         this.hideModal();
         this.clearPlayer();
         this.pause = false;
         this.playerReset();
         this.update();
-        this.isGameStarted = true;
     }
 
 }

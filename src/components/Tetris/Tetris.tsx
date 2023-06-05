@@ -21,17 +21,12 @@ const Tetris = observer(() => {
         tetris.context = tetris.canvas.getContext('2d');
         tetris.nextContext = tetris.next.getContext('2d');
         tetris.arena = tetris.createMatrix(12, 20);
-        tetris.update()
 
         if (tetris.isGameStarted) {
             tetris.context.scale(20, 20);
             tetris.nextContext.scale(30, 30);
         }
     }, [tetris.isGameStarted])
-
-    const onClose = () => {
-        console.log('Close')
-    }
 
     useEffect(() => {
         const body = document.body;
