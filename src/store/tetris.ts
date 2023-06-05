@@ -1,6 +1,6 @@
 import {makeAutoObservable} from "mobx";
 import {Player} from "../models/Player";
-
+import {Matrix} from "../models/Matrix";
 
 class Tetris {
     pause: boolean = true;
@@ -25,8 +25,9 @@ class Tetris {
         DROP_SLOW: 100,
         next: null,
     };
-    colors = [
-        null,
+    colors:string[] = [
+
+        "#03A9F4",
         "#03A9F4",
         "#9C27B0",
         "#FFC107",
@@ -118,7 +119,7 @@ class Tetris {
         this.drawMatrix(this.player.matrix, this.player.pos, this.context);
     }
 
-    drawMatrix = (mat: any[], offset: any, cont: any) => {
+    drawMatrix = (mat: Matrix, offset: any, cont: any) => {
         mat.forEach((row: number[], y: number) => {
             row.forEach((value, x) => {
                 if (value !== 0) {
@@ -153,7 +154,7 @@ class Tetris {
         }
     }
 
-    collide = (arena: any, player: Player) => {
+    collide = (arena : Matrix, player: Player) => {
         const [m, o] = [player.matrix, player.pos];
         for (let y = 0; y < m.length; y++) {
             for (let x = 0; x < m[y].length; x++) {
@@ -170,7 +171,7 @@ class Tetris {
         this.player.DROP_SLOW = 1000;
         this.player.score = 0;
         this.player.level = 1;
-        this.arena.forEach((row: any) => row.fill(0));
+        this.arena.forEach((row: number[]) => row.fill(0));
     }
 
     playerReset = () => {
@@ -214,7 +215,12 @@ class Tetris {
             } else if (e.keyCode === 87 || e.keyCode === 38) {
                 this.playerRotate(1);
             } else if (e.keyCode === 27) {
-                this.pause = true
+                if(this.pause){
+                    this.pause = false
+                    this.update()
+                }else{
+                    this.pause = true;
+                }
             }
         }
 
@@ -230,7 +236,7 @@ class Tetris {
         }
     }
 
-    playerRotate = (dir: any) => {
+    playerRotate = (dir: number) => {
         const pos = this.player.pos.x;
         let offset = 1;
         this.rotate(this.player.matrix, dir);
@@ -246,14 +252,14 @@ class Tetris {
         }
     }
 
-    playerMove = (dir: any) => {
+    playerMove = (dir: number) => {
         this.player.pos.x += dir;
         if (this.collide(this.arena, this.player)) {
             this.player.pos.x -= dir;
         }
     }
 
-    rotate = (matrix: any, dir: any) => {
+    rotate = (matrix: Matrix, dir: number) => {
         for (let y = 0; y < matrix.length; y++) {
             for (let x = 0; x < y; x++) {
                 [matrix[x][y], matrix[y][x]] = [matrix[y][x], matrix[x][y]];
